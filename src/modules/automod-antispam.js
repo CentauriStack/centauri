@@ -82,7 +82,12 @@ async function antiSpam(client, message) {
                             .setLabel(`Unmute User`)
                             .setStyle('Primary') 
 
-                        const ActionRow = new ActionRowBuilder().addComponents(BanUser, KickUser, MuteUser, UnmuteUser)
+                        const WarnUser = new ButtonBuilder()
+                            .setCustomId(JSON.stringify({ffb: 'warn-user', UserId: message.author.id}))
+                            .setLabel(`Warn User`)
+                            .setStyle('Primary')
+
+                        const ActionRow = new ActionRowBuilder().addComponents(BanUser, KickUser, MuteUser, UnmuteUser, WarnUser)
 
                         channel.send({ embeds: [ModerationAlert], components: [ActionRow] })
                     }
