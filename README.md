@@ -5,7 +5,7 @@ Warning: This bot is still in development and there IS NO GUARANTEE, NO DOCS, an
 ## About
 Centauri is a complex Discord Moderation Bot with a few features for now but more will be added in the future.
 
-## Activly being Used in the following servers
+## Actively  being Used in the following servers
 - [The Zerio Community](https://discord.gg/5cGSYV8ZZj)
 
 ## Features
