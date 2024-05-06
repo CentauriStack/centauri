@@ -3,7 +3,7 @@ const { Guild } = require('../../src/database/models')
 module.exports = async (client, member) => {
     const guildData = await Guild.findOne({ GuildId: member.guild.id })
     const channel = await member.guild.channels.cache.get(guildData.Welcome.channelId);
-    const message = await guildData.Welcome.message;
+    const message = await guildData.Welcome.WelcomeMessage;
     if (!channel) return;
    
 

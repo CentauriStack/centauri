@@ -45,17 +45,17 @@ module.exports = {
     ],
     async execute({ interaction }) {
 
-        let GuildData = await Guild.findOne({ GuildId: interaction.guildid })
+        const GuildData = await Guild.findOne({ GuildId: interaction.guildId })
         if (!GuildData) { 
             const newGuild = new Guild({
-                GuildId: interaction.guildid,
+                GuildId: interaction.guildId,
             })
             await newGuild.save()
-            GuildData = await Guild.findOne({ GuildId: interaction.guildid })
+            GuildData = newGuild
         }
         switch(interaction.options.getSubcommand()) {
 
-            case 'AutoMod-Module': {
+            case 'automod-module': {
                 const channel = interaction.options.getChannel('automod-alerts-channel')
                 if (channel) {
                 if (channel.type !== 'GUILD_TEXT') return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | The channel must be a text channel`)], ephemeral: true, })
@@ -66,7 +66,7 @@ module.exports = {
                     return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | No Input, please select an Input!`)], ephemeral: true, })
                 } 
             }
-            case 'Welcome-Module': {
+            case 'welcome-module': {
                 const channel = interaction.options.getChannel('welcome-channel')
                 const message = interaction.options.getString('welcome-message')
                 if (channel) {
