@@ -3,14 +3,14 @@ const { Guild } = require('../../src/database/models')
 
 
 module.exports = {
-    name: 'Config',
+    name: 'config',
     description: 'Config the bot for your server',
     permissions: PermissionsBitField.Flags.Administrator,
     options: [
         {
-            name: 'AutoMod-Module',
+            name: 'automod-module',
             description: 'Setup the Auto Moderation Module',
-            type: ApplicationCommandOptionType.SubCommand,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: 'automod-alerts-channel',
@@ -21,8 +21,9 @@ module.exports = {
             ]
         }, 
         {
-            name: 'Welcome-Module',
+            name: 'welcome-module',
             description: 'Setup the welcome Module',
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: 'welcome-channel',

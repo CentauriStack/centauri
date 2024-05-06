@@ -107,9 +107,6 @@ async function LinkHandler(message, content) {
             const domain = JSON.parse(domainwurl).domain
             const url = JSON.parse(domainwurl).url     
             
-            console.log('here')
-             
-            
             const baseDomain = GetbaseDomain(domain);
 
             const AllowSpecificDomain = new ButtonBuilder()
@@ -147,7 +144,7 @@ async function LinkHandler(message, content) {
                             )
                 .setColor(client.Config.Colors.AutoModAction)
                 .setTimestamp()
-                            console.log('here')
+                            
         channel.send({ embeds: [ModerationAlert], components: [ActionRow] })
         })
     
