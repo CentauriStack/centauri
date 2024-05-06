@@ -8,6 +8,7 @@ const Guild = new Schema({
     },
     Welcome: {
         channelId: { type: String, default: null },
+        WelcomeMessage: { type: String, default: null },
     }
 });
 
