@@ -95,11 +95,11 @@ async function LinkHandler(message, content) {
             console.log(error);
         }
 
-        if (!guildData || !guildData.AutoMod.AlertsChannel) {
+        if (!guildData || !guildData.AutoMod.AlertsChannelId) {
             return
         }
 
-        const channel = message.guild.channels.cache.get(guildData.AutoMod.AlertsChannel);
+        const channel = message.guild.channels.cache.get(guildData.AutoMod.AlertsChannelId);
         if (!channel) return;
 
 

@@ -32,7 +32,13 @@ module.exports = {
                     required: false,
                 },
                 {
-                    name: 'welcome-message',
+                    name: 'welcome-message-title',
+                    description: 'The message to send to new members',
+                    type: ApplicationCommandOptionType.String,
+                    required: false,
+                },
+                {
+                    name: 'welcome-message-description',
                     description: 'The message to send to new members',
                     type: ApplicationCommandOptionType.String,
                     required: false,
@@ -59,7 +65,7 @@ module.exports = {
                 const channel = interaction.options.getChannel('automod-alerts-channel')
                 if (channel) {
                 if (channel.type !== 'GUILD_TEXT') return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | The channel must be a text channel`)], ephemeral: true, })
-                GuildData.AutoMod.AlertsChannel = channel.id
+                GuildData.AutoMod.AlertsChannelId = channel.id
                 await GuildData.save()
                 return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | AutoMod alerts channel set to <#${channel.id}>`)], ephemeral: true, })
                 } else {
@@ -68,18 +74,26 @@ module.exports = {
             }
             case 'welcome-module': {
                 const channel = interaction.options.getChannel('welcome-channel')
-                const message = interaction.options.getString('welcome-message')
+                const TitleMessage = interaction.options.getString('welcome-message-title')
+                const DescriptionMessage = interaction.options.getString('welcome-message-description')
+
                 if (channel) {
                 if (channel.type !== 'GUILD_TEXT') return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | The channel must be a text channel`)], ephemeral: true, })
                 GuildData.Welcome.channelId = channel.id
                 await GuildData.save()
                 return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | Welcome channel set to <#${channel.id}>`)], ephemeral: true, })
                 }
-                if (message) {
-                    if (message.length > 1024) return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | The message is too long, please keep it under 1024 characters`)], ephemeral: true, })
-                    GuildData.Welcome.WelcomeMessage = message
+                if (TitleMessage) {
+                    if (TitleMessage.length > 156) return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | The message must be less than 156 characters`)], ephemeral: true, })
+                    GuildData.Welcome.WelcomeMessageTitle = TitleMessage
                     await GuildData.save()
-                    return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | Welcome message set to ${message}`)], ephemeral: true, })
+                    return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | Welcome Message Title set to ${TitleMessage}`)], ephemeral: true, })
+                }
+                if (DescriptionMessage) {
+                    if (DescriptionMessage.length > 1048) return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | The message must be less than 1048 characters`)], ephemeral: true, })
+                    GuildData.Welcome.WelcomeMessageDescription = DescriptionMessage
+                    await GuildData.save()
+                    return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | Welcome Message Description set to ${DescriptionMessage}`)], ephemeral: true, })
                 }
                 else {
                     return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | No Input, please select an Input!`)], ephemeral: true, })
