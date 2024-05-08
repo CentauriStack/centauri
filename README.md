@@ -1,28 +1,27 @@
 # Centauri
 
-Warning: This bot is still in development and there IS NO GUARANTEE, NO DOCS, and little support! Use at your own risk for now! 
+** Warning: This bot is still in development and there IS NO GUARANTEE, NO DOCS, and little support! Use at your own risk for now! **
 
 ## About
+
 Centauri is a complex Discord Moderation Bot with a few features for now but more will be added in the future.
 
-## Actively being Used in the following servers
+## Actively being Used on the following servers:
 - [The Zerio Community](https://discord.gg/5cGSYV8ZZj)
 
 ## Features
 
 - Link Moderation
-- Welcome Messages
+- Welcome Messages (with a few options)
 
 
 ## Configuration
 
 config.js 
 
-file located in the main folder `config.js`.
+file located in the main folder `config.js`. (you need to create this file yourself, all configs are below)
 
 ```js
-
-
 module.exports = {
     Tokens: { 
         Discord: 'XXX',
@@ -46,5 +45,4 @@ module.exports = {
     
   
 }
-
 ```
