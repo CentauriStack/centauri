@@ -5,6 +5,8 @@ const Guild = new Schema({
     AutoMod: {
         AlertsChannelId: { type: String, default: null },
         AllowedLinks: { type: Array, default: [] },
+        AntiSpamRate: { type: Number, default: 0 },
+        AntiSpamLimit: { type: Number, default: 0 },
 
     },
     Welcome: {
@@ -12,6 +14,7 @@ const Guild = new Schema({
         WelcomeMessageTitle: { type: String, default: null },
         WelcomeMessageDescription: { type: String, default: null },
     }
+
 });
 
 

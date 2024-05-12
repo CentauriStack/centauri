@@ -2,6 +2,7 @@ const { readdirSync } = require('fs');
 const { Collection } = require('discord.js')
 client.commands = new Collection();
 CommandsArray = [];
+const connect  = require('../src/database/connect')
 
 const DiscordEvents = readdirSync('./events/Discord/').filter(file => file.endsWith('.js'));
 
@@ -28,10 +29,13 @@ readdirSync('./commands/').forEach(dir => {
     }
     })
 
-    client.on('ready', (client) => {
+
+    client.on('ready', async (client) => {
         
         if (client.Config.Bot.Global) client.application.commands.set(CommandsArray)
         else client.guilds.cache.get(client.Config.Bot.Guild).commands.set(CommandsArray)
+        await connect(client);
+        client.user.setActivity(client.Config.Bot.playing);
         
         console.log('[Bot] Ready')
     })

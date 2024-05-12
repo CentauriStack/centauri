@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const { Guild } = require('../../src/database/models')
 module.exports = async (client, member) => {
     const guildData = await Guild.findOne({ GuildId: member.guild.id })
+    if (!guildData) return;
     const channel = await member.guild.channels.cache.get(guildData.Welcome.channelId);
     const MessageTitle = await guildData.Welcome.WelcomeMessageTitle;
     const MessageDescription = await guildData.Welcome.WelcomeMessageDescription;

@@ -17,7 +17,20 @@ module.exports = {
                     description: 'The channel to send Auto moderation alerts to',
                     type: ApplicationCommandOptionType.Channel,
                     required: false,
-                } 
+                },
+                {
+                    name: 'anti-spam-rate',
+                    description: 'user can only send (limit) messages in (rate) seconds',
+                    type: ApplicationCommandOptionType.Integer,
+                    required: false,
+                },
+                {
+                    name: 'anti-spam-limit',
+                    description: 'user can only send (limit) messages in (rate) seconds',
+                    type: ApplicationCommandOptionType.Integer,
+                    required: false,
+                },
+            
             ]
         }, 
         {
@@ -51,7 +64,7 @@ module.exports = {
     ],
     async execute({ interaction }) {
 
-        const GuildData = await Guild.findOne({ GuildId: interaction.guildId })
+        let GuildData = await Guild.findOne({ GuildId: interaction.guildId })
         if (!GuildData) { 
             const newGuild = new Guild({
                 GuildId: interaction.guildId,
@@ -63,12 +76,27 @@ module.exports = {
 
             case 'automod-module': {
                 const channel = interaction.options.getChannel('automod-alerts-channel')
+                const AntiSpamRate = interaction.options.getInteger('anti-spam-rate')
+                const AntiSpamLimit = interaction.options.getInteger('anti-spam-limit')
+
                 if (channel) {
-                if (channel.type !== 'GUILD_TEXT') return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | The channel must be a text channel`)], ephemeral: true, })
-                GuildData.AutoMod.AlertsChannelId = channel.id
-                await GuildData.save()
-                return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | AutoMod alerts channel set to <#${channel.id}>`)], ephemeral: true, })
-                } else {
+                    //if (channel.type !== 'GUILD_TEXT') return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | The channel must be a text channel`)], ephemeral: true, })
+                        GuildData.AutoMod.AlertsChannelId = channel.id
+                        await GuildData.save()
+                        interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | AutoMod alerts channel set to <#${channel.id}>`)], ephemeral: true, })
+                } 
+                if (AntiSpamRate) {
+                    GuildData.AutoMod.AntiSpamRate = AntiSpamRate
+                    await GuildData.save()
+                    interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | Anti Spam Rate set to ${AntiSpamRate}`)], ephemeral: true, })
+                }
+                if (AntiSpamLimit) {
+                    GuildData.AutoMod.AntiSpamLimit = AntiSpamLimit
+                    await GuildData.save()
+                     interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | Anti Spam Limit set to ${AntiSpamLimit}`)], ephemeral: true, })
+                }
+                if (channel || AntiSpamRate || AntiSpamLimit) return
+                else {
                     return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | No Input, please select an Input!`)], ephemeral: true, })
                 } 
             }
@@ -87,7 +115,7 @@ module.exports = {
                     if (TitleMessage.length > 156) return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | The message must be less than 156 characters`)], ephemeral: true, })
                     GuildData.Welcome.WelcomeMessageTitle = TitleMessage
                     await GuildData.save()
-                     interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | Welcome Message Title set to ${TitleMessage}`)], ephemeral: true, })
+                    interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | Welcome Message Title set to ${TitleMessage}`)], ephemeral: true, })
                 }
                 if (DescriptionMessage) {
                     if (DescriptionMessage.length > 1048) return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | The message must be less than 1048 characters`)], ephemeral: true, })
@@ -95,6 +123,7 @@ module.exports = {
                     await GuildData.save()
                     interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Default).setDescription(`✅ | Welcome Message Description set to ${DescriptionMessage}`)], ephemeral: true, })
                 }
+                
                 if (channel || TitleMessage || DescriptionMessage) return
                 else {
                     return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | No Input, please select an Input!`)], ephemeral: true, })

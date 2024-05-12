@@ -1,5 +1,5 @@
-const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, PermissionsBitField, messageLink  } = require('discord.js');
-const { Guild } = require('../database/models');
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, PermissionsBitField  } = require('discord.js');
+const { Guild } = require('../../src/database/models');
 
 function GetbaseDomain(domain) {
     return domain.split('.').slice(-2).join('.');
@@ -62,8 +62,7 @@ async function checkAllowed(domainsWURl, guildData) {
     return triggerDomains;
 }
 
-async function LinkHandler(message, content) {
-    const guildData = await Guild.findOne({ GuildId: message.guildId });
+async function LinkHandler(message, content, guildData) {
     const urls = FindUrls(content);
     const domainsWURl = FindDomain(urls);
     const TriggerDomainsWUrls = await checkAllowed(domainsWURl, guildData)
@@ -137,7 +136,7 @@ async function LinkHandler(message, content) {
                 .setTitle('AutoMod Alert')
                 .addFields(
                     { name: `User:`, value: `${message.author}`, inline: true},
-                    { name: `Channel:`, value: `${message.channel}`, inline: true,},
+                    { name: `Channel:`, value: `${message.channel}`, inline: true},
                     { name: `Domain:`, value: `${domain}`, inline: false},
                     { name: `Link:`, value: `${url}`, inline: false},
                     { name: `Message:`, value: `${message.content}`},
@@ -153,19 +152,22 @@ async function LinkHandler(message, content) {
 }
 
 
-function AutoModMessages(client, message) {
+async function AutoModLinkMessages(client, message) {
+    
     if (message.author.bot) return;
     if (message.channel.type === 'dm') return;
     if (message.member.permissions.has(PermissionsBitField.Flags.Administrator)) return;
+    const guildData = await Guild.findOne({ GuildId: message.guildId})
+
 
     const content = message.content.toLowerCase();
 
-    LinkHandler(message, content);
+    LinkHandler(message, content, guildData);
 
 }
 
 
 
-module.exports = { AutoModMessages } 
+module.exports = { AutoModLinkMessages } 
 
 
