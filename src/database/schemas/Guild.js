@@ -7,13 +7,23 @@ const Guild = new Schema({
         AllowedLinks: { type: Array, default: [] },
         AntiSpamRate: { type: Number, default: 0 },
         AntiSpamLimit: { type: Number, default: 0 },
+        
 
     },
     Welcome: {
         channelId: { type: String, default: null },
         WelcomeMessageTitle: { type: String, default: null },
         WelcomeMessageDescription: { type: String, default: null },
-    }
+    }/*,
+    Users: { type: Map, of: { 
+            UserId: { type: String, required: true },
+            Warns: { type: Array, default: [] },
+            BeenKicked : { type: Boolean, default: false },
+            BeenBanned : { type: Boolean, default: false },
+             
+        },
+    },
+    */
 
 });
 

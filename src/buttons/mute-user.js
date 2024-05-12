@@ -22,7 +22,5 @@ module.exports = async ({ interaction, customId }) => {
         }
     }
     if (!member.manageable)  return interaction.editReply({ embeds: [ new EmbedBuilder().setColor(client.Config.Colors.Error).setDescription(`❌ | I cannot mute ${member}, check my permissions`)], ephemeral: false})
-   
-
     
 }

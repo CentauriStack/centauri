@@ -63,6 +63,10 @@ async function checkAllowed(domainsWURl, guildData) {
 }
 
 async function LinkHandler(message, content, guildData) {
+    if (!guildData || !guildData.AutoMod.AllowedLinks) {
+        return;
+    }
+
     const urls = FindUrls(content);
     const domainsWURl = FindDomain(urls);
     const TriggerDomainsWUrls = await checkAllowed(domainsWURl, guildData)
