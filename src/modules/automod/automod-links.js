@@ -1,5 +1,5 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, PermissionsBitField  } = require('discord.js');
-const { Guild } = require('../../src/database/models');
+const { Guild } = require('../../database/models');
 
 function GetbaseDomain(domain) {
     return domain.split('.').slice(-2).join('.');
